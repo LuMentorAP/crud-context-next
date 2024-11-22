@@ -11,6 +11,7 @@ const CrudContext = createContext();
 // Proveedor del contexto
 export const CrudProvider = ({ children }) => {
   const [items, setItems] = useState([]);
+  const [productDetail, setProductDetail] = useState({})
 
   // Cargar datos desde MockAPI
   const fetchItems = async () => {
@@ -23,6 +24,18 @@ export const CrudProvider = ({ children }) => {
       console.error('Error al obtener los datos:', error);
     }
   };
+
+    // Obtener detalles de un producto por ID
+    const fetchProductDetail = async (id) => {
+        try {
+          const response = await fetch(`${API_URL}/${id}`);
+          const data = await response.json();
+          setProductDetail(data);
+         
+        } catch (error) {
+          console.error('Error al obtener el detalle del producto:', error);
+        }
+      };
 
   // Agregar un nuevo ítem
   const addItem = async (item) => {
@@ -68,7 +81,7 @@ export const CrudProvider = ({ children }) => {
   }, []);
 
   return (
-    <CrudContext.Provider value={{ items, addItem, updateItem, deleteItem }}>
+    <CrudContext.Provider value={{ items, addItem, updateItem, deleteItem, fetchProductDetail, productDetail }}>
       {children}
     </CrudContext.Provider>
   );

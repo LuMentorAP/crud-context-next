@@ -1,4 +1,5 @@
 'use client'
+import Link from "next/link";
 import { useCrud } from "./context/Crudcontext";
 import { useState } from 'react';
 
@@ -55,7 +56,10 @@ export default function Home() {
       <ul>
         {items.map((item) => (
           <li key={item.id}>
+            <Link  href={`/products/${item.id}`}>
+
             <strong>{item.name}</strong>: {item.description}{' '}
+            </Link>
             <button onClick={() => handleEdit(item)}>Editar</button>
             <button onClick={() => deleteItem(item.id)}>Eliminar</button>
           </li>
